@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { View, Button, Text, TouchableOpacity, Switch} from 'react-native';
+import { View, Text, TouchableOpacity, Switch} from 'react-native';
 import {TriangleAlert, Fingerprint, Camera, Settings, Clock4} from 'lucide-react-native';
+import {Picker} from '@react-native-picker/picker';
 import {
     ExpoSpeechRecognitionModule,
     useSpeechRecognitionEvent,
@@ -18,6 +19,9 @@ export default function Index() {
         buttonText: '#ffffff',
         stopButtonBg: '#ff4444',
     };
+
+    const [selectedValue, setSelectedValue] = useState(5);
+
 
     useSpeechRecognitionEvent('result', (event:any) => {
         setTranscript(event.results[0]?.transcript);
@@ -104,6 +108,19 @@ export default function Index() {
                 fontSize: 16,
                 textAlign: 'center',
            }}>{transcript}</Text>
+
+            <View style={{marginTop: 20,}}>
+                <Text style={{fontWeight:'bold', marginBottom: 5}}>Check-In Interval</Text>
+                <Picker
+                    selectedValue={selectedValue}
+                    style={{height:50, width:250}}
+                    onValueChange={(itemValue) => setSelectedValue(itemValue)}>
+                    <Picker.Item label='5 minutes' value={5}/>
+                    <Picker.Item label='10 minutes' value={10}/>
+                    <Picker.Item label='15 minutes' value={15}/>
+                    <Picker.Item label='30 minutes' value={30}/>
+                </Picker>
+            </View>
         <TouchableOpacity
             style={{backgroundColor: '#ff4444',
             paddingVertical:14,
