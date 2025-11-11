@@ -12,8 +12,12 @@ export default function Index() {
     const [transcript, setTranscript] = useState('');
     const [darkMode, setDarkMode]= useState(false);
 
+    // const ThreatIndicator = () => {
+    //     const { threatLevel, settings } = useSafety();
+    //     const isThreat = threatLevel === 'detected';
+
     const theme = {
-        background: darkMode ? '#1a1a1a' : '#ecf0f1',
+        background: darkMode ? '#0F1729' : '#ecf0f1',
         text: darkMode ? '#ffffff' : '#000000',
         buttonBg: darkMode ? '#4a4a4a' : '#007AFF',
         buttonText: '#ffffff',
@@ -21,7 +25,8 @@ export default function Index() {
     };
 
     const [selectedValue, setSelectedValue] = useState(5);
-
+    const [timeRemaining, setTimeRemaining]= useState(0);
+    const internalRef =useRef(null);
 
     useSpeechRecognitionEvent('result', (event:any) => {
         setTranscript(event.results[0]?.transcript);
@@ -78,7 +83,7 @@ export default function Index() {
                     thumbColor={darkMode ? '#007AFF' : '#f4f3f4'}
                 />
             </View>
-
+            <Text style={{color: darkMode ? '#2DD4BF':'#0F1729', textAlign:'center', fontWeight:'bold', fontSize: 50, marginBottom: 20}}>BeSafe</Text>
             <TouchableOpacity
                 onPress={recognizing ? stop : start}
                 style={{
@@ -106,14 +111,14 @@ export default function Index() {
             </TouchableOpacity>
             <Text style={{marginTop: 20,
                 fontSize: 16,
-                textAlign: 'center',
+                textAlign: 'center', color: darkMode ? '#ffffff':'#000000'
            }}>{transcript}</Text>
 
             <View style={{marginTop: 20,}}>
-                <Text style={{fontWeight:'bold', marginBottom: 5}}>Check-In Interval</Text>
+                <Text style={{fontWeight:'bold', marginBottom: 10, textAlign:'center',fontSize:16, color: darkMode ? '#ffffff':'#000000'}}>Check-In Interval</Text>
                 <Picker
                     selectedValue={selectedValue}
-                    style={{height:50, width:250}}
+                    style={{height:50, width:250, borderRadius:20, borderColor: '#00CFFF'}}
                     onValueChange={(itemValue) => setSelectedValue(itemValue)}>
                     <Picker.Item label='5 minutes' value={5}/>
                     <Picker.Item label='10 minutes' value={10}/>
@@ -126,7 +131,7 @@ export default function Index() {
             paddingVertical:14,
             paddingHorizontal:25,
             borderRadius:15,
-            marginTop:20,}}>
+            marginTop:40,}}>
             <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
                 <View style={{flexDirection:'row', }}>
                     <TriangleAlert color='white' height={20} width={20} fontWeight={'bold'}/>
@@ -135,7 +140,7 @@ export default function Index() {
             </View>
         </TouchableOpacity>
             <View style={{height: 80,position:'absolute', bottom:0, width:390, justifyContent: 'center', alignItems:'center'}}>
-                <View style={{flexDirection: 'row', gap:75}}>
+                <View style={{flexDirection: 'row', gap:75, color: darkMode ? '#00CFFF' : '#000000'}}>
                     <Camera/>
                     <Clock4/>
                     <Settings/>
